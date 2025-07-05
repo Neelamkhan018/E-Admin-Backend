@@ -5,6 +5,7 @@ import express from 'express';
 import cors from 'cors';
 
 const app = express();
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
 // Add this line before your routes
 app.use(cors({
@@ -19,7 +20,8 @@ export class ProductController {
     const productsWithImageUrls = products.map((product: any) => ({
       ...product,
       images: product.images?.map((img: string) =>
-        img.startsWith('http') ? img : `http://localhost:3000/uploads/${img.replace(/^uploads[\\\/]/, '')}`
+        // img.startsWith('http') ? img : `http://localhost:3000/uploads/${img.replace(/^uploads[\\\/]/, '')}`
+      img.startsWith('http') ? img : `${BASE_URL}/uploads/${img}`
       ) || []
     }));
     res.json(productsWithImageUrls);
